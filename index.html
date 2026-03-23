@@ -5,44 +5,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glossaire IA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Passion+One:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #F8F6F1;
+    --bg: #FFFFFF;
     --surface: #FFFFFF;
-    --border: #D8D4CC;
-    --text-primary: #14120F;
-    --text-secondary: #48453F;
-    --text-muted: #8A8780;
-    --header-bg: #F0EDE6;
-    --header-border: #D5D1C7;
+    --border: #E4E0D8;
+    --text-primary: #1A1F5E;
+    --text-secondary: #444150;
+    --text-muted: #9A97A8;
+    --accent-orange: #F5A623;
+    --accent-teal: #3ECFBE;
+    --blob: #F5F3E0;
   }
 
   body {
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     background: var(--bg);
     color: var(--text-primary);
     min-height: 100vh;
   }
 
+  /* Header */
   header {
-    background: var(--header-bg);
-    border-bottom: 1px solid var(--header-border);
-    padding: 3rem 2rem 2.75rem;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 3.5rem 2rem 3rem;
+    position: relative;
+    overflow: hidden;
   }
-  .header-inner { max-width: 820px; margin: 0 auto; }
+  .header-inner {
+    max-width: 820px; margin: 0 auto;
+    position: relative; z-index: 2;
+  }
+
+  /* Blob background */
+  header::before {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -80px;
+    width: 340px; height: 260px;
+    background: var(--blob);
+    border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+    z-index: 0;
+  }
+
+  /* Decorative shapes */
+  .deco {
+    position: absolute;
+    z-index: 1;
+  }
+  .deco-star {
+    top: 2rem; left: 2rem;
+    width: 48px; height: 48px;
+  }
+  .deco-diamond-orange {
+    top: 1.5rem; right: 2rem;
+    width: 18px; height: 18px;
+    background: var(--accent-orange);
+    transform: rotate(45deg);
+  }
+  .deco-diamond-teal {
+    bottom: 2rem; left: 1.5rem;
+    width: 14px; height: 14px;
+    background: var(--accent-teal);
+    transform: rotate(45deg);
+  }
+  .deco-circle {
+    bottom: 1.5rem; left: 3.5rem;
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--text-muted);
+    border-radius: 50%;
+  }
+  .deco-diamond-teal2 {
+    top: 40%; right: 8rem;
+    width: 12px; height: 12px;
+    background: var(--accent-teal);
+    transform: rotate(45deg);
+    opacity: 0.5;
+  }
+
+  /* Star SVG */
+  .deco-star svg {
+    width: 100%; height: 100%;
+    stroke: #BBBAB5; stroke-width: 1; fill: none;
+  }
 
   h1 {
-    font-family: 'Baskervville', Georgia, serif;
-    font-size: clamp(2.4rem, 5.5vw, 3.4rem);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1.06;
-    margin-bottom: 0.7rem;
+    font-family: 'Passion One', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 0.75rem;
     color: var(--text-primary);
-    letter-spacing: -0.015em;
+    letter-spacing: 0.01em;
+    text-transform: none;
   }
 
   .header-sub {
@@ -53,6 +112,7 @@
     max-width: 420px;
   }
 
+  /* Controls */
   .controls-wrap {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -67,7 +127,7 @@
     font-size: 11px; color: var(--text-muted); margin-right: 4px;
   }
   .filter-btn {
-    font-size: 12px; font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px; font-family: 'Inter', sans-serif;
     padding: 4px 12px; border-radius: 100px;
     border: 1px solid var(--border);
     background: transparent; color: var(--text-secondary);
@@ -78,6 +138,7 @@
     background: var(--text-primary); color: #fff; border-color: var(--text-primary);
   }
 
+  /* Table */
   .table-wrap { max-width: 820px; margin: 0 auto; padding: 2rem 2rem 5rem; }
   .result-count {
     font-size: 12px; color: var(--text-muted); margin-bottom: 1.25rem;
@@ -92,11 +153,11 @@
     border-bottom: 1px solid var(--border);
     padding: 0 0 10px 0;
   }
-  thead th:first-child { width: 195px; padding-right: 28px; }
+  thead th:first-child { width: 195px; padding-right: 28px; padding-left: 1.5rem; }
 
   tr.row { border-bottom: 1px solid var(--border); }
   tr.row:last-child { border-bottom: none; }
-  tr.row:hover td { background: #EEEBE4; }
+  tr.row:hover td { background: #F7F6FF; }
 
   td {
     padding: 15px 0;
@@ -104,11 +165,12 @@
     transition: background 0.1s;
   }
   td.term {
-    font-family: 'Baskervville', Georgia, serif;
-    font-size: 15px; font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px; font-weight: 700;
     color: var(--text-primary);
     white-space: nowrap;
     padding-right: 28px;
+    padding-left: 1.5rem;
   }
   td.def {
     font-size: 13.5px;
@@ -130,7 +192,7 @@
   }
 
   @media (max-width: 600px) {
-    header { padding: 2rem 1.25rem; }
+    header { padding: 2.5rem 1.25rem 2rem; }
     .controls { padding: 0.75rem 1.25rem; }
     .table-wrap { padding: 1.25rem 1.25rem 3rem; }
     td.term { white-space: normal; }
@@ -140,6 +202,20 @@
 <body>
 
 <header>
+  <!-- Decorative shapes -->
+  <div class="deco deco-star">
+    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <line x1="24" y1="2" x2="24" y2="46"/>
+      <line x1="2" y1="24" x2="46" y2="24"/>
+      <line x1="7" y1="7" x2="41" y2="41"/>
+      <line x1="41" y1="7" x2="7" y2="41"/>
+    </svg>
+  </div>
+  <div class="deco deco-diamond-orange"></div>
+  <div class="deco deco-diamond-teal"></div>
+  <div class="deco deco-circle"></div>
+  <div class="deco deco-diamond-teal2"></div>
+
   <div class="header-inner">
     <h1>Glossaire IA</h1>
     <p class="header-sub">Les termes essentiels pour comprendre et parler l'IA, accessibles à tous les profils.</p>
