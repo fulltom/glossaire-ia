@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossaire IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F8F6F1;
+    --surface: #FFFFFF;
+    --border: #D8D4CC;
+    --text-primary: #14120F;
+    --text-secondary: #48453F;
+    --text-muted: #8A8780;
+    --header-bg: #F0EDE6;
+    --header-border: #D5D1C7;
+  }
+
+  body {
+    font-family: 'Instrument Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--header-border);
+    padding: 3rem 2rem 2.75rem;
+  }
+  .header-inner { max-width: 820px; margin: 0 auto; }
+
+  h1 {
+    font-family: 'Baskervville', Georgia, serif;
+    font-size: clamp(2.4rem, 5.5vw, 3.4rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.06;
+    margin-bottom: 0.7rem;
+    color: var(--text-primary);
+    letter-spacing: -0.015em;
+  }
+
+  .header-sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 420px;
+  }
+
+  .controls-wrap {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .controls {
+    max-width: 820px; margin: 0 auto;
+    padding: 0.85rem 2rem;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .filters-label {
+    font-size: 11px; color: var(--text-muted); margin-right: 4px;
+  }
+  .filter-btn {
+    font-size: 12px; font-family: 'Instrument Sans', sans-serif;
+    padding: 4px 12px; border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.15s; font-weight: 400;
+  }
+  .filter-btn:hover { border-color: var(--text-primary); color: var(--text-primary); }
+  .filter-btn.active {
+    background: var(--text-primary); color: #fff; border-color: var(--text-primary);
+  }
+
+  .table-wrap { max-width: 820px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+  .result-count {
+    font-size: 12px; color: var(--text-muted); margin-bottom: 1.25rem;
+  }
+  .result-count strong { color: var(--text-secondary); font-weight: 500; }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    text-align: left;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    padding: 0 0 10px 0;
+  }
+  thead th:first-child { width: 195px; padding-right: 28px; }
+
+  tr.row { border-bottom: 1px solid var(--border); }
+  tr.row:last-child { border-bottom: none; }
+  tr.row:hover td { background: #EEEBE4; }
+
+  td {
+    padding: 15px 0;
+    vertical-align: top; line-height: 1.6;
+    transition: background 0.1s;
+  }
+  td.term {
+    font-family: 'Baskervville', Georgia, serif;
+    font-size: 15px; font-weight: 400;
+    color: var(--text-primary);
+    white-space: nowrap;
+    padding-right: 28px;
+  }
+  td.def {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  .empty {
+    text-align: center; padding: 4rem 0;
+    color: var(--text-muted); font-size: 14px;
+  }
+
+  footer {
+    text-align: center; padding: 2rem;
+    font-size: 11px; color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 2rem 1.25rem; }
+    .controls { padding: 0.75rem 1.25rem; }
+    .table-wrap { padding: 1.25rem 1.25rem 3rem; }
+    td.term { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Glossaire IA</h1>
+    <p class="header-sub">Les termes essentiels pour comprendre et parler l'IA, accessibles à tous les profils.</p>
+  </div>
+</header>
+
+<div class="controls-wrap">
+  <div class="controls">
+    <span class="filters-label">Afficher</span>
+    <button class="filter-btn active" data-f="all" onclick="setFilter('all')">Tous</button>
+    <button class="filter-btn" data-f="new" onclick="setFilter('new')">Nouveaux</button>
+    <button class="filter-btn" data-f="exist" onclick="setFilter('exist')">Existants</button>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <div class="result-count" id="result-count"></div>
+  <table>
+    <thead>
+      <tr>
+        <th>Terme</th>
+        <th>Définition</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="empty" id="empty" style="display:none">Aucun résultat.</div>
+</div>
+
+<footer>Glossaire IA &mdash; usage libre, partage encouragé</footer>
+
+<script>
+const DATA = [
+  {t:"Agent IA", d:"Une IA qui planifie, prend des décisions et exécute des actions de manière autonome — rechercher des informations, remplir un formulaire, envoyer un message — avec une supervision humaine minimale.", n:false},
+  {t:"AGI", d:"Intelligence Artificielle Générale — Une IA capable de réaliser tout ce qu'un humain sait faire, dans n'importe quel domaine. Pas encore atteinte à ce jour, mais le débat s'est fortement intensifié depuis 2024.", n:false},
+  {t:"API", d:"Interface de programmation — Le pont technique qui permet à vos outils de communiquer avec une IA (ex : connecter ChatGPT à votre application).", n:false},
+  {t:"Automation / Workflow", d:"Automatiser des tâches sans coder, via des outils comme n8n, Make ou Zapier. Les actions s'enchaînent dans un ordre défini.", n:false},
+  {t:"Chain of Thought", d:"Demander à l'IA de raisonner étape par étape avant de répondre. Comme montrer son brouillon avant de rendre sa copie — ça améliore la précision.", n:true},
+  {t:"Chatbot", d:"Assistant conversationnel qui dialogue avec vous en langage naturel.", n:false},
+  {t:"Context Window", d:"La quantité de texte que l'IA peut lire en même temps — votre instruction et tout l'historique de la conversation. Au-delà, elle « oublie » ce qui précède.", n:false},
+  {t:"Copilote IA", d:"Assistant IA intégré directement dans un outil existant (traitement de texte, messagerie, code…). Il suggère, reformule ou génère du contenu sans quitter l'interface. Ex : Microsoft Copilot.", n:true},
+  {t:"Données d'entraînement", d:"L'ensemble des textes, images et informations sur lesquels un modèle a appris. La qualité et la diversité de ces données déterminent largement ce que l'IA sait faire.", n:true},
+  {t:"Few-shot", d:"Technique qui consiste à donner quelques exemples à l'IA avant de lui poser la vraie question. Comme lui montrer un modèle avant de lui demander de reproduire.", n:true},
+  {t:"Fine-tuning", d:"Spécialiser un modèle existant sur une tâche précise avec vos propres données. Comme former un généraliste pour qu'il devienne expert de votre domaine.", n:false},
+  {t:"Grounding", d:"Ancrer les réponses de l'IA dans des sources fiables pour qu'elle s'appuie sur des faits réels plutôt que sur ses suppositions.", n:true},
+  {t:"Guardrails", d:"Mécanismes de sécurité qui encadrent les réponses d'une IA pour éviter les contenus inappropriés ou hors sujet.", n:true},
+  {t:"Hallucination", d:"Quand l'IA invente des faits avec assurance. Elle peut citer des sources inexistantes ou affirmer des choses fausses sans aucun signal d'alerte.", n:false},
+  {t:"IA Générative", d:"IA qui crée du nouveau contenu — texte, images, audio, vidéo. Ex : ChatGPT, Midjourney, Claude.", n:false},
+  {t:"IA Locale", d:"Modèle d'IA qui tourne directement sur votre machine ou vos serveurs, sans envoyer de données à l'extérieur. Privilégiée pour les questions de confidentialité.", n:true},
+  {t:"IA Prédictive", d:"IA qui analyse des données historiques pour anticiper ce qui va se passer. Ex : prévisions de ventes, notation automatique de prospects.", n:false},
+  {t:"Knowledge Cutoff", d:"Date limite des données d'entraînement. L'IA ignore tout ce qui s'est passé après cette date, sauf si on lui fournit l'information.", n:false},
+  {t:"Latence", d:"Le temps d'attente entre l'envoi de votre message et la première réponse de l'IA. Critique dès qu'on intègre l'IA dans une application.", n:true},
+  {t:"LLM", d:"Grand modèle de langage — une IA entraînée sur des milliards de textes pour comprendre et générer du langage. Ex : GPT-4, Claude, Gemini.", n:false},
+  {t:"MCP", d:"Protocole de Contexte de Modèle — un standard universel lancé par Anthropic en 2024 qui permet à une IA de se connecter à n'importe quel outil ou base de données (agenda, fichiers, CRM…). Comme un port USB-C pour l'IA.", n:true},
+  {t:"Modèle de base", d:"Un grand modèle généraliste entraîné à grande échelle, sur lequel on peut ensuite construire des applications spécialisées. Ex : GPT-4, Claude, Llama.", n:false},
+  {t:"Multimodal", d:"Une IA capable de traiter plusieurs types de contenus à la fois : texte, images, audio, vidéo. Ex : GPT-4, Gemini.", n:false},
+  {t:"Open-source", d:"Modèle dont le code et les paramètres sont publics et librement réutilisables. Ex : Llama, Mistral. Plus de contrôle, mais demande des compétences techniques.", n:false},
+  {t:"Orchestration", d:"Coordination de plusieurs agents ou outils IA pour accomplir une tâche complexe en plusieurs étapes, comme un chef d'orchestre qui dirige ses musiciens.", n:true},
+  {t:"Paramètres", d:"Les réglages internes d'un modèle, appris pendant son entraînement. Plus un modèle en a, plus il peut saisir des nuances fines — sans que ce soit toujours gage de qualité.", n:false},
+  {t:"Prompt", d:"L'instruction que vous rédigez pour l'IA. Une instruction bien formulée donne une réponse bien meilleure.", n:false},
+  {t:"Prompt Engineering", d:"L'art de formuler des instructions claires et efficaces pour obtenir les meilleures réponses d'une IA.", n:false},
+  {t:"RAG", d:"Génération augmentée par la recherche — une technique qui connecte l'IA à une base de documents pour qu'elle réponde à partir de vos vraies données, et non de suppositions. Colonne vertébrale des assistants IA d'entreprise.", n:false},
+  {t:"Skills (compétences IA)", d:"Capacités spécifiques qu'on greffe sur un agent IA pour élargir ce qu'il sait faire : envoyer un e-mail, lire un tableau, appeler un service externe… Chaque skill est un outil supplémentaire dans sa boîte.", n:true},
+  {t:"System Prompt", d:"Instruction de configuration donnée à l'IA avant toute conversation. Elle définit son rôle, son ton et ses limites. L'utilisateur final ne la voit pas.", n:true},
+  {t:"Température", d:"Réglage qui contrôle le niveau de créativité de l'IA. Basse : réponses précises et prévisibles. Haute : réponses plus variées et originales.", n:false},
+  {t:"Token", d:"L'unité de base que l'IA lit et produit — environ un mot ou une partie de mot. Les coûts et les limites des modèles sont calculés en unités de ce type.", n:false},
+  {t:"Vector Database", d:"Une base de données spécialisée qui permet à l'IA de retrouver rapidement les documents les plus pertinents pour répondre à une question. Indispensable dans les systèmes RAG.", n:true},
+  {t:"Zero-shot", d:"Capacité d'une IA à répondre correctement à une tâche sans qu'on lui ait donné d'exemple au préalable. Mesure son niveau d'intelligence générale.", n:true},
+];
+
+let filter = 'all';
+
+function setFilter(f) {
+  filter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  render();
+}
+
+function render() {
+  const tbody = document.getElementById('tbody');
+  const empty = document.getElementById('empty');
+  const rc = document.getElementById('result-count');
+
+  const rows = DATA.filter(d =>
+    filter === 'all' || (filter === 'new' && d.n) || (filter === 'exist' && !d.n)
+  );
+
+  rc.innerHTML = `<strong>${rows.length}</strong> terme${rows.length > 1 ? 's' : ''}`;
+
+  if (!rows.length) {
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = rows.map(d => `
+    <tr class="row">
+      <td class="term">${d.t}</td>
+      <td class="def">${d.d}</td>
+    </tr>
+  `).join('');
+}
+
+render();
+</script>
+</body>
+</html>
